@@ -6,7 +6,7 @@
 
 
 plugins {
-  kotlin("plugin.serialization") version tomlVersion("kotlin")
+  kotlin("plugin.serialization")
   kotlin("multiplatform")
   /*experimental.coroutines = org.jetbrains.kotlin.gradle.dsl.Coroutines.ENABLE*/
 }
