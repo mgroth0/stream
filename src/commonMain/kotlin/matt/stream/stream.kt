@@ -130,10 +130,21 @@ fun Array<FloatArray>.flatten() = FloatArray(this.map { it.size }.sum()).also { 
   }
 }
 
-
-
-
 inline fun <T> Iterable<T>.firstOrErr(msg: String, predicate: (T)->Boolean): T {
   for (element in this) if (predicate(element)) return element
   err(msg)
+}
+
+
+fun <T> Collection<T>.only(): T {
+  require(this.size == 1)
+  return first()
+}
+
+fun <T> Sequence<T>.only() = iterator().only()
+fun <T> Iterable<T>.only() = iterator().only()
+fun <T> Iterator<T>.only(): T {
+  val r = next()
+  require(!hasNext())
+  return r
 }
