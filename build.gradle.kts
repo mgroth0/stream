@@ -16,7 +16,7 @@ plugins {
 configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
   sourceSets {
 	val commonMain by getting {
-	  dependencies {
+	  this.dependencies {
 		if (rootDir.name.upper() == "FLOW") {
 		  implementation(project(":k:klib"))
 		} else {
