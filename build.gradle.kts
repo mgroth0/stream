@@ -1,5 +1,7 @@
 import matt.klib.str.upper
 
+modtype = NO_NATIVE
+
 plugins {
   kotlin("plugin.serialization")
   kotlin("multiplatform")
