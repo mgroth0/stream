@@ -68,12 +68,6 @@ inline fun <T, R> Iterable<T>.mapNested(converter: (T, T)->R): List<R> {
 //  return mapTo(ArrayList<R>(collectionSizeOrDefault(10)), {  })
 //}
 
-fun Any.containedIn(list: List<*>) = list.contains(this)
-fun Any.containedIn(array: Array<*>) = array.contains(this)
-
-fun Any.notContainedIn(list: List<*>) = !list.contains(this)
-fun Any.notContainedIn(array: Array<*>) = !array.contains(this)
-
 fun <T> Sequence<T>.onEvery(ith: Int, action: (T)->Unit): Sequence<T> {
   return mapIndexed { index, t ->
 	if (index%ith == 0) action(t)
