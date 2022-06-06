@@ -6,13 +6,14 @@ import matt.klib.log.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import matt.klib.commons.LOG_FOLDER
+import matt.klib.commons.plus
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.System.currentTimeMillis
 import java.net.Socket
 import java.net.SocketTimeoutException
 
-val tempLogger = Logger(logFile = LOG_FOLDER["ide_open.log"])
+val tempLogger = Logger(logfile = LOG_FOLDER + "ide_open.log")
 
 fun Socket.readTextBeforeTimeout(timeout: Long): String {
   return SocketReader(this).readTextBeforeTimeout(timeout)
@@ -25,6 +26,7 @@ class SocketReader(val socket: Socket) {
   )
 
   fun readTextBeforeTimeout(timeout: Long): String {
+	tempLogger += "readTextBeforeTimeout"
 	val stopAt = currentTimeMillis() + timeout
 	return runBlocking {
 	  var r = ""
@@ -43,6 +45,7 @@ class SocketReader(val socket: Socket) {
 
   /*null=EOF*/
   suspend fun readLineOrSuspend(suspendMillis: Long = 100): String? {
+	tempLogger += "readLineOrSuspend"
 	var line = ""
 	while (true) {
 	  when (val lineResult = readLine()) {
@@ -58,6 +61,7 @@ class SocketReader(val socket: Socket) {
   }
 
   private fun readLine(): ReadLineResult {
+	tempLogger += "readLine"
 	var line = ""
 	while (true) {
 	  val c = read()
@@ -78,6 +82,7 @@ class SocketReader(val socket: Socket) {
   }
 
   private fun read(timeout: Int = 1): ReadCharResult {
+	tempLogger += "read"
 	socket.soTimeout = timeout
 	return try {
 	  val c = reader.read()
