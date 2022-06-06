@@ -2,13 +2,17 @@
 
 package matt.stream.kj
 
+import matt.klib.log.Logger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import matt.klib.commons.LOG_FOLDER
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.System.currentTimeMillis
 import java.net.Socket
 import java.net.SocketTimeoutException
+
+val tempLogger = Logger(logFile = LOG_FOLDER["ide_open.log"])
 
 fun Socket.readTextBeforeTimeout(timeout: Long): String {
   return SocketReader(this).readTextBeforeTimeout(timeout)
