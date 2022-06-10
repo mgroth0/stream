@@ -1,6 +1,6 @@
 import matt.klib.str.upper
 
-modtype = NO_NATIVE
+modtype = JVM_ONLY
 
 plugins {
   kotlin("plugin.serialization")
