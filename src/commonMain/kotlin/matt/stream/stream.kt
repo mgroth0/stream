@@ -8,6 +8,8 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind.UNKNOWN
 import kotlin.contracts.contract
 
+class StreamClassForDepAnalysis()
+
 fun <T> mutableListsOf(num: Int) = (0 until num).map { mutableListOf<T>() }
 fun <T> listsOf(num: Int) = (0 until num).map { listOf<T>() }
 
