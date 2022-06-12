@@ -14,18 +14,12 @@ plugins {
 configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
   sourceSets {
 	val commonMain by getting {
-	  this.dependencies {
+	  dependencies {
 		implementation(libs.kotlinx.coroutines)
 		implementations(
 		  ":k:klib".auto(),
 		  handler = this
 		)
-		//		if (rootDir.name.upper() == "FLOW") {
-		//		  implementation(project(":k:klib"))
-		//		} else {
-		//		  todo("this is bad")
-		//		implementation("matt.flow:klib:+")
-		//		}
 	  }
 	}
   }
