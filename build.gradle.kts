@@ -1,4 +1,4 @@
-modtype = JVM_ONLY
+modtype = NO_NATIVE
 
 plugins {
   kotlin("plugin.serialization")
