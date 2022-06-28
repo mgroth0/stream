@@ -44,6 +44,7 @@ fun <T> Iterable<T>.filterIn(vararg matches: T): List<T> {
   return filterTo(ArrayList()) { it in matches }
 }
 
+@OptIn(ExperimentalContracts::class)
 inline fun <E, I: Iterator<E>> I.whileHasNext(op: I.(E)->Unit) {
   contract {
 	callsInPlace(op, UNKNOWN)
@@ -143,3 +144,13 @@ fun <T> Iterator<T>.only(): T {
   return r
 }
 
+
+
+fun <E> List<E>.sameContentsAnyOrder(list: List<E>): Boolean {
+  if (size != list.size) return false
+  val tempList = list.toMutableList()
+  forEach {
+	if (!tempList.remove(it)) return false
+  }
+  return tempList.isEmpty()
+}
