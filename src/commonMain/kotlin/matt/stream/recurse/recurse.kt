@@ -92,8 +92,15 @@ inline fun <T: Any> T.chain(crossinline op: (T)->T?): Sequence<T> {
   }.asSequence()
 }
 
-fun <T> T.recurse(includeSelf: Boolean = true, rchildren: (T)->Iterable<T>): Sequence<T> {
-  val mychildren = rchildren(this).iterator()
+//fun <T> T.recurse(includeSelf: Boolean = true, rchildren: (T)->Array<T>?): Sequence<T> {
+//  @Suppress("USELESS_CAST")
+//  return recurse(includeSelf = includeSelf, { t: T ->
+//	rchildren(t)?.toList()
+//  } as (T)->List<T>?)
+//}
+
+fun <T> T.recurse(includeSelf: Boolean = true, rchildren: (T)->Iterable<T>?): Sequence<T> {
+  val mychildren = rchildren(this)?.iterator()
   var gaveSelf = false
   var currentChild: Iterator<T>? = null
   return object: Iterator<T> {
@@ -101,13 +108,13 @@ fun <T> T.recurse(includeSelf: Boolean = true, rchildren: (T)->Iterable<T>): Seq
 	  if (currentChild != null && currentChild!!.hasNext()) {
 		return true
 	  }
-	  return mychildren.hasNext() || (!gaveSelf && includeSelf)
+	  return (mychildren != null && mychildren.hasNext()) || (!gaveSelf && includeSelf)
 	}
 
 	override fun next(): T {
 	  return if (currentChild != null && currentChild!!.hasNext()) {
 		currentChild!!.next()
-	  } else if (mychildren.hasNext()) {
+	  } else if (mychildren != null && mychildren.hasNext()) {
 		currentChild = mychildren.next().recurse(rchildren = rchildren).iterator()
 		next()
 	  } else if (!gaveSelf && includeSelf) {
