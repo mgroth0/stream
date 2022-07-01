@@ -115,6 +115,8 @@ inline fun <T> Iterable<T>.forEachPairing(action: Pair<T, T>.()->Unit) {
 }
 
 
+
+
 fun Array<FloatArray>.flatten() = FloatArray(this.map { it.size }.sum()).also { r ->
   var i = 0
   forEach {
@@ -124,6 +126,9 @@ fun Array<FloatArray>.flatten() = FloatArray(this.map { it.size }.sum()).also { 
 	}
   }
 }
+
+@Suppress("SimplifiableCall", "UNCHECKED_CAST") fun <T> Array<T>.filterNotNull(): List<T & Any> = filter { it != null } as List<T & Any>
+//@Suppress("SimplifiableCall", "UNCHECKED_CAST") fun FloatArray.filterNotNull(): List<Float> = filter { it != null } as List<T & Any>
 
 inline fun <T> Iterable<T>.firstOrErr(msg: String, predicate: (T)->Boolean): T {
   for (element in this) if (predicate(element)) return element
