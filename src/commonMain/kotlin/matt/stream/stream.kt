@@ -115,8 +115,6 @@ inline fun <T> Iterable<T>.forEachPairing(action: Pair<T, T>.()->Unit) {
 }
 
 
-
-
 fun Array<FloatArray>.flatten() = FloatArray(this.map { it.size }.sum()).also { r ->
   var i = 0
   forEach {
@@ -127,7 +125,8 @@ fun Array<FloatArray>.flatten() = FloatArray(this.map { it.size }.sum()).also { 
   }
 }
 
-@Suppress("SimplifiableCall", "UNCHECKED_CAST") fun <T> Array<T>.filterNotNull(): List<T & Any> = filter { it != null } as List<T & Any>
+@Suppress("SimplifiableCall", "UNCHECKED_CAST") fun <T> Array<T>.filterNotNull(): List<T & Any> =
+  filter { it != null } as List<T & Any>
 //@Suppress("SimplifiableCall", "UNCHECKED_CAST") fun FloatArray.filterNotNull(): List<Float> = filter { it != null } as List<T & Any>
 
 inline fun <T> Iterable<T>.firstOrErr(msg: String, predicate: (T)->Boolean): T {
@@ -150,7 +149,6 @@ fun <T> Iterator<T>.only(): T {
 }
 
 
-
 fun <E> List<E>.sameContentsAnyOrder(list: List<E>): Boolean {
   if (size != list.size) return false
   val tempList = list.toMutableList()
@@ -159,3 +157,6 @@ fun <E> List<E>.sameContentsAnyOrder(list: List<E>): Boolean {
   }
   return tempList.isEmpty()
 }
+
+/*from is inclusive*/
+fun <E> List<E>.subList(from: Int) = subList(from, size)
