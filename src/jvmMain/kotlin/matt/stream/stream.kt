@@ -1,3 +1,4 @@
+@file:JvmName("StreamJvmKt")
 package matt.stream
 
 import matt.stream.ReaderEndReason.TYPE.END_OF_STREAM

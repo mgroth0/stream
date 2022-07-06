@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalContracts::class)
-
 package matt.stream
 
 
