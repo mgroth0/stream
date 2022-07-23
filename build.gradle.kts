@@ -5,10 +5,6 @@ plugins {
 }
 
 
-//implementations(
-//  ":k:klib"
-//)
-
 
 configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
   sourceSets {
