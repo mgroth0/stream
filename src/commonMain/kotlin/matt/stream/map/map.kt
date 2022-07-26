@@ -1,10 +1,20 @@
 package matt.stream.map
 
+import matt.klib.dmap.CanBeNotNullMap
+import matt.klib.dmap.CanBeNotNullMutableMap
 import matt.klib.str.lower
 import matt.klib.dmap.withStoringDefault
 import matt.klib.lang.err
 import matt.stream.itr.FakeMutableIterator
 import kotlin.collections.MutableMap.MutableEntry
+
+fun <K, V> lazyMap(getter: (K)->V): CanBeNotNullMap<K, V> {
+  return mutableMapOf<K, V>().withStoringDefault(getter)
+}
+
+fun <K, V> lazyMutableMap(getter: (K)->V): CanBeNotNullMutableMap<K, V> {
+  return mutableMapOf<K, V>().withStoringDefault(getter)
+}
 
 
 class MapFromKeyValueLists<K, V>(private val keyList: MutableList<K>, private val valueList: MutableList<V>):
@@ -160,14 +170,6 @@ class MutableCaseInsensitiveMap<V>: CaseInsensitiveMap<V>(), MutableMap<String, 
 
 }
 
-
-fun <K, V> lazyMap(getter: (K)->V): Map<K, V> {
-  return mutableMapOf<K, V>().withStoringDefault(getter)
-}
-
-fun <K, V> lazyMutableMap(getter: (K)->V): MutableMap<K, V> {
-  return mutableMapOf<K, V>().withStoringDefault(getter)
-}
 
 
 
