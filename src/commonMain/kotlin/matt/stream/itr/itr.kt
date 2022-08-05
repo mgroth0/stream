@@ -211,3 +211,34 @@ class MutableLoopListIterator<E>(override val list: MutableList<E>): MutableList
 	return itr.set(element)
   }
 }
+
+open class MutableIteratorWrapper<E>(
+  list: MutableCollection<E>,
+  open val itrWrapper: (()->E)->E = { it() },
+  val changeWrapper: (()->Unit)->Unit = { it() }
+): MutableIterator<E> {
+  protected open val itr = list.iterator()
+
+  override fun hasNext() = itr.hasNext()
+  override fun next() = itrWrapper { itr.next() }
+
+  override fun remove(): Unit = changeWrapper { itr.remove() }
+}
+
+
+open class MutableListIteratorWrapper<E>(
+  list: MutableList<E>,
+  index: Int? = null,
+  itrWrapper: (()->E)->E = { it() },
+  changeWrapper: (()->Unit)->Unit = { it() }
+): MutableIteratorWrapper<E>(list, itrWrapper = itrWrapper, changeWrapper = changeWrapper), MutableListIterator<E> {
+  override val itr = if (index != null) list.listIterator(index) else list.listIterator()
+
+  override fun hasPrevious() = itr.hasPrevious()
+  override fun nextIndex() = itr.nextIndex()
+  override fun previous() = itrWrapper { itr.previous() }
+  override fun previousIndex() = itr.previousIndex()
+
+  override fun add(element: E) = changeWrapper { itr.add(element) }
+  override fun set(element: E) = changeWrapper { itr.set(element) }
+}
