@@ -4,16 +4,15 @@ import matt.klib.lang.err
 import matt.klib.lang.untilIs
 import matt.klib.log.HasLogger
 import matt.klib.log.Logger
+import java.io.Closeable
 import java.io.InputStream
 import java.net.SocketTimeoutException
 
 fun InputStream.encodingReader(encoding: Encoding, log: Logger) = EncodingReader(encoding, this, log)
 
-class EncodingReader(
-  private val encoding: Encoding,
-  private val input: InputStream,
-  log: Logger
-): HasLogger(log) {
+open class EncodingReader(
+  private val encoding: Encoding, input: InputStream, log: Logger
+): HasLogger(log), Closeable {
   private val br by lazy { input.bufferedReader() }
 
   fun section(): ReadSectionResult = decorate {
@@ -49,17 +48,17 @@ class EncodingReader(
   } catch (e: SocketTimeoutException) {
 	TIMEOUT
   } /*add any other timeout exceptions here as well and return TIMEOUT*/
+
+  override fun close() = br.close()
 }
 
 sealed interface ReadSectionResult
 
-@JvmInline
-value class ReadSection(val sect: String): ReadSectionResult
+@JvmInline value class ReadSection(val sect: String): ReadSectionResult
 
 sealed interface ReadCharResult
 
-@JvmInline
-value class ReadChar(val c: Char): ReadCharResult
+@JvmInline value class ReadChar(val c: Char): ReadCharResult
 object DELIM: ReadCharResult
 object EOF: ReadCharResult, ReadSectionResult
 object TIMEOUT: ReadCharResult, ReadSectionResult
