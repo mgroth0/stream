@@ -37,3 +37,5 @@ fun Process.forEachOutChar(op: (String)->Unit) = inputStream.bufferedReader().fo
 fun Process.forEachErrChar(op: (String)->Unit) = errorStream.bufferedReader().forEachChar {
   op(it)
 }
+
+
