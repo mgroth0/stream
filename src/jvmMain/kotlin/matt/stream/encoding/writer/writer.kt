@@ -1,8 +1,12 @@
 package matt.stream.encoding.writer
 
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
+import matt.klib.log.SystemOutLogger
+import matt.klib.log.decorateGlobal
 import matt.stream.encoding.Encoding
+import matt.stream.message.InterAppMessage
 import java.io.OutputStream
 
 fun OutputStream.withEncoding(encoding: Encoding) = EncodingOutputStream(encoding, this)
@@ -17,9 +21,11 @@ class EncodingOutputStream(private val encoding: Encoding, private val out: Outp
   internal var isBeingUsedCorrectly = false
 
 
-  @Suppress("OPT_IN_USAGE") inline fun <reified T> sendJson(o: T) {
+  /*tried to do this as a reified inline so anything could be used instead of InterAppMessage... but it doesn't work. The class discriminator wasn't included in the resulting json...*/
+  @Suppress("OPT_IN_USAGE") fun sendJson(o: InterAppMessage) = decorateGlobal(SystemOutLogger) {
 	isBeingUsedCorrectly = true
-	Json.encodeToStream(o, this)
+	println("stringJson = ${Json.encodeToString(o)}")
+	Json.encodeToStream<InterAppMessage>(o, this)
 	delimit()
 	isBeingUsedCorrectly = false
   }

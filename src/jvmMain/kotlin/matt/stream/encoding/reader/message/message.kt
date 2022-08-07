@@ -30,7 +30,9 @@ open class MessageReader(
   fun message(): ReadSectionParsedResult = when (val sect = encodingReader.section()) {
 	EOF               -> EOF
 	TIMEOUT           -> TIMEOUT
-	is ReadSectionRaw -> ReadSectionParsed(Json.decodeFromString<InterAppMessage>(sect.sect))
+	is ReadSectionRaw -> ReadSectionParsed(Json.decodeFromString<InterAppMessage>(sect.sect.apply {
+	  println("json:${this}")
+	}))
   }
 
   override fun close() = encodingReader.close()
