@@ -83,6 +83,12 @@ object GetPage: InterAppAction
 object GetFile: InterAppAction
 
 @Serializable
+data class PDFFileMessage(val file: String): InterAppMessage
+
+@Serializable
+data class PDFPageMessage(val pageNum: Int): InterAppMessage
+
+@Serializable
 class DepInfoMessage(val depInfo: DepInfo): InterAppMessage
 
 @Serializable
