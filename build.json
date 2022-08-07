@@ -1,18 +1,23 @@
 {
-    "modType": {
-        "type": "matt.klib.mod.NO_NATIVE"
-    },
-    "dependencies": [
-        {
-            "type": "matt.mstruct.BuildJsonLibDependency",
-            "cfg": "commonMainImplementation",
-            "key": "kotlinx-coroutines"
-        },
-        {
-            "type": "matt.mstruct.BuildJsonProjectDependency",
-            "cfg": "commonMainImplementation",
-            "path": ":k:klib"
-        }
-    ],
-    "note": null
+  "modType" :      {
+	"type" : "matt.klib.mod.NO_NATIVE"
+  },
+  "dependencies" : [
+	{
+	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "cfg" :  "commonMainImplementation",
+	  "key" :  "kotlinx-coroutines"
+	},
+	{
+	  "type" : "matt.mstruct.BuildJsonProjectDependency",
+	  "cfg" :  "commonMainImplementation",
+	  "path" : ":k:klib"
+	},
+	{
+	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "cfg" :  "commonMainImplementation",
+	  "key" :  "kotlinx-serialization-json"
+	}
+  ],
+  "note" :         null
 }
