@@ -6,7 +6,28 @@ import matt.klib.log.HasLogger
 import matt.klib.log.Logger
 import java.io.Closeable
 import java.io.InputStream
+import java.io.OutputStream
 import java.net.SocketTimeoutException
+
+class EncodingOutputStream(val encoding: Encoding, val out: OutputStream): OutputStream() {
+
+  fun delimit() {
+	out.write(encoding.delimiter.code)
+  }
+
+  override fun write(b: Int) {
+	out.write(encoding.encode(b.toChar()).toByteArray())
+  }
+
+  override fun close() {
+	out.close()
+  }
+
+  override fun flush() {
+	out.flush()
+  }
+
+}
 
 fun InputStream.encodingReader(encoding: Encoding, log: Logger) = EncodingReader(encoding, this, log)
 
@@ -40,6 +61,7 @@ open class EncodingReader(
 	  encoding.escape.code    -> when (val cc = br.read()) {
 		-1                      -> err("received EOF in escape sequence...")
 		encoding.delimiter.code -> ReadChar(encoding.delimiter)
+		encoding.escape.code    -> ReadChar(encoding.escape)
 		else                    -> err("invalid escape: $cc")
 	  }
 

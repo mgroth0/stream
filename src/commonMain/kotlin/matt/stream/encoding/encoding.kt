@@ -1,6 +1,5 @@
 package matt.stream.encoding
 
-
 class Encoding(
   val delimiter: Char,
   val escape: Char
@@ -14,6 +13,13 @@ class Encoding(
 	  delimiter = '\n',
 	  escape = 0.toChar()
 	)
+  }
+
+  fun encode(s: String) = buildString { s.forEach { append(encode(it)) } }
+
+  fun encode(c: Char) = when (c) {
+	delimiter, escape -> escape.toString() + c.toString()
+	else              -> c.toString()
   }
 }
 
