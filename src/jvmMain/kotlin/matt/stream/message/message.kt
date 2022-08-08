@@ -10,6 +10,17 @@ class ActionResult(
 
 val NOTHING_TO_SEND = ActionResult(message = null)
 
+val YES_ACTION = ActionResult(message = YES)
+
+@Serializable
+class IntMessage(val i: Int): InterAppMessage
+
+@Serializable
+class DoubleMessage(val d: Double): InterAppMessage
+
+@Serializable
+class LongMessage(val l: Long): InterAppMessage
+
 
 @Serializable
 sealed interface InterAppMessage
@@ -22,6 +33,9 @@ object FAIL: InterAppMessage
 
 @Serializable
 class Text(val text: String): InterAppMessage
+
+@Serializable
+object YES: InterAppMessage
 
 
 
@@ -74,10 +88,10 @@ class HarvardAuthorMeta(val thing: String): InterAppAction
 class KJGNav(val thing: String): InterAppAction
 
 @Serializable
-class GoPage(val thing: String): InterAppAction
+class GoPage(val pageIndex: Int): InterAppAction
 
 @Serializable
-object GetPage: InterAppAction
+object GetPageIndex: InterAppAction
 
 @Serializable
 object GetFile: InterAppAction
