@@ -38,9 +38,13 @@ class Text(val text: String): InterAppMessage
 object YES: InterAppMessage
 
 
-
 @Serializable
 class FileMessage(val file: SFile): InterAppMessage
+
+@Serializable
+class FilesMessage(vararg val files: SFile): InterAppMessage {
+  constructor(files: List<SFile>): this(*files.toTypedArray())
+}
 
 @Serializable
 sealed interface InterAppAction: InterAppMessage
@@ -56,6 +60,9 @@ object ARE_YOU_RUNNING: InterAppAction
 
 @Serializable
 object GET_ACTIVE_FILE: InterAppAction
+
+@Serializable
+object GET_ALL_OPEN_FILES: InterAppAction
 
 @Serializable
 class Go(val id: String): InterAppAction
