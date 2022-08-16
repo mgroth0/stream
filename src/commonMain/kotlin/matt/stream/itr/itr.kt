@@ -8,6 +8,8 @@ fun <E> List<E>.loopListIterator() = LoopListIterator(this)
 fun <E> MutableList<E>.loopListIterator() = MutableLoopListIterator(this)
 
 
+fun <E> Iterator<E>.toFakeMutableIterator() = FakeMutableIterator(this)
+
 class FakeMutableIterator<E>(val itr: Iterator<E>): MutableIterator<E> {
   override fun hasNext(): Boolean {
 	return itr.hasNext()
