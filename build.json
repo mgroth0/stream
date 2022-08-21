@@ -10,7 +10,7 @@
 	},
 	{
 	  "type" : "matt.mstruct.BuildJsonProjectDependency",
-	  "cfg" :  "commonMainImplementation",
+	  "cfg" :  "commonMainApi",
 	  "path" : ":k:klib"
 	},
 	{
