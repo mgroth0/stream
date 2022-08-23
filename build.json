@@ -17,7 +17,11 @@
 	  "type" : "matt.mstruct.BuildJsonLibDependency",
 	  "cfg" :  "commonMainImplementation",
 	  "key" :  "kotlinx-serialization-json"
+	},
+	{
+	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "cfg" :  "jvmMainImplementation",
+	  "key" :  "kt-reflect"
 	}
-  ],
-  "note" :         null
+  ]
 }

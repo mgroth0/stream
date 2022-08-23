@@ -3,8 +3,10 @@ package matt.stream
 
 import matt.stream.ReaderEndReason.TYPE.END_OF_STREAM
 import matt.stream.ReaderEndReason.TYPE.IO_EXCEPTION
+import matt.stream.recurse.recurse
 import java.io.IOException
 import java.io.Reader
+import kotlin.reflect.KClass
 
 class ReaderEndReason(val type: TYPE, val exception: Exception? = null) {
   enum class TYPE {
@@ -39,3 +41,8 @@ fun Process.forEachErrChar(op: (String)->Unit) = errorStream.bufferedReader().fo
 }
 
 
+
+
+fun <T: Any> KClass<out T>.recurseSealedSubclasses() = recurse(includeSelf = false) {
+  it.sealedSubclasses
+}
