@@ -4,22 +4,22 @@
   },
   "dependencies" : [
 	{
-	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "type" : "matt.mstruct.bj.BuildJsonLibDependency",
 	  "cfg" :  "commonMainImplementation",
 	  "key" :  "kotlinx-coroutines"
 	},
 	{
-	  "type" : "matt.mstruct.BuildJsonProjectDependency",
+	  "type" : "matt.mstruct.bj.BuildJsonProjectDependency",
 	  "cfg" :  "commonMainApi",
 	  "path" : ":k:klib"
 	},
 	{
-	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "type" : "matt.mstruct.bj.BuildJsonLibDependency",
 	  "cfg" :  "commonMainImplementation",
 	  "key" :  "kotlinx-serialization-json"
 	},
 	{
-	  "type" : "matt.mstruct.BuildJsonLibDependency",
+	  "type" : "matt.mstruct.bj.BuildJsonLibDependency",
 	  "cfg" :  "jvmMainImplementation",
 	  "key" :  "kt-reflect"
 	}
