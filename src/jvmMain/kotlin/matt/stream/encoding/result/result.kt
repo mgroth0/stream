@@ -1,7 +1,6 @@
 package matt.stream.encoding.result
 
 import matt.klib.lang.toStringBuilder
-import matt.stream.message.InterAppMessage
 
 sealed interface ReadSectionResult
 sealed interface ReadSectionRawResult: ReadSectionResult
@@ -12,7 +11,7 @@ class ReadSectionRaw(val sect: String): ReadSectionRawResult {
   override fun toString() = toStringBuilder(::sect)
 }
 
-class ReadSectionParsed(val sect: InterAppMessage): ReadSectionParsedResult {
+class ReadSectionParsed<T: Any>(val sect: T): ReadSectionParsedResult {
   override fun toString() = toStringBuilder(::sect)
 }
 

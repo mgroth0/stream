@@ -1,7 +1,8 @@
 package matt.stream.encoding.reader.message
 
-import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import matt.klib.log.HasLogger
 import matt.klib.log.Logger
 import matt.stream.encoding.Encoding
@@ -11,15 +12,18 @@ import matt.stream.encoding.result.ReadSectionParsed
 import matt.stream.encoding.result.ReadSectionParsedResult
 import matt.stream.encoding.result.ReadSectionRaw
 import matt.stream.encoding.result.TIMEOUT
-import matt.stream.message.InterAppMessage
 import java.io.Closeable
 import java.io.InputStream
+import kotlin.reflect.KClass
 
-fun InputStream.messageReader(encoding: Encoding, log: Logger) = MessageReader(encoding, this, log)
+inline fun <reified T: Any> InputStream.messageReader(encoding: Encoding, log: Logger) =
+  MessageReader<T>(encoding, this, T::class, log)
 
-open class MessageReader(
+@OptIn(InternalSerializationApi::class)
+open class MessageReader<T: Any>(
   encoding: Encoding,
   input: InputStream,
+  val cls: KClass<T>,
   log: Logger,
 ): HasLogger(log), Closeable {
 
@@ -30,7 +34,7 @@ open class MessageReader(
   fun message(): ReadSectionParsedResult = when (val sect = encodingReader.section()) {
 	EOF               -> EOF
 	TIMEOUT           -> TIMEOUT
-	is ReadSectionRaw -> ReadSectionParsed(Json.decodeFromString<InterAppMessage>(sect.sect.apply {
+	is ReadSectionRaw -> ReadSectionParsed(Json.decodeFromString(cls.serializer(), sect.sect.apply {
 	  println("json:${this}")
 	}))
   }
