@@ -158,3 +158,6 @@ fun <E> List<E>.sameContentsAnyOrder(list: List<E>): Boolean {
 
 /*from is inclusive*/
 fun <E> List<E>.subList(from: Int) = subList(from, size)
+
+fun <E> List<E?>.filterNotNull(): List<E> = mapNotNull { it }
+fun <E> Sequence<E?>.filterNotNull(): Sequence<E> = mapNotNull { it }
