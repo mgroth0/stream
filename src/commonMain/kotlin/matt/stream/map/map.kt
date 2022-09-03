@@ -2,7 +2,7 @@ package matt.stream.map
 
 import matt.collect.dmap.CanBeNotNullMap
 import matt.collect.dmap.CanBeNotNullMutableMap
-import matt.klib.str.lower
+import matt.prim.str.lower
 import matt.collect.dmap.withStoringDefault
 import matt.lang.err
 import matt.stream.itr.FakeMutableIterator
