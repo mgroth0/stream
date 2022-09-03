@@ -3,8 +3,8 @@ package matt.stream.encoding.writer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
-import matt.klib.log.SystemOutLogger
-import matt.klib.log.decorateGlobal
+import matt.log.SystemOutLogger
+import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
 import matt.stream.message.InterAppMessage
 import java.io.OutputStream

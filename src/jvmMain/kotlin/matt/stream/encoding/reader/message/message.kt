@@ -3,8 +3,8 @@ package matt.stream.encoding.reader.message
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
-import matt.klib.log.HasLogger
-import matt.klib.log.Logger
+import matt.log.HasLogger
+import matt.log.Logger
 import matt.stream.encoding.Encoding
 import matt.stream.encoding.reader.EncodingReader
 import matt.stream.encoding.result.EOF
