@@ -89,9 +89,9 @@ inline fun <T> Array<out T>.applyEach(action: T.()->Unit) {
   for (element in this) action.invoke(element)
 }
 
-inline fun <T> Iterable<T>.applyEach(action: T.()->Unit) {
-  for (element in this) action.invoke(element)
-}
+//inline fun <T> Iterable<T>.applyEach(action: T.()->Unit) {
+//  for (element in this) action.invoke(element)
+//}
 
 inline fun <T> Sequence<T>.applyEach(action: T.()->Unit) {
   for (element in this) action.invoke(element)
