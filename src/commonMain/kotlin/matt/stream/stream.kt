@@ -3,6 +3,8 @@ package matt.stream
 
 import matt.lang.err
 import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.InvocationKind.AT_LEAST_ONCE
 import kotlin.contracts.InvocationKind.UNKNOWN
 import kotlin.contracts.contract
 
@@ -161,3 +163,142 @@ fun <E> List<E>.subList(from: Int) = subList(from, size)
 
 fun <E> List<E?>.filterNotNull(): List<E> = mapNotNull { it }
 fun <E> Sequence<E?>.filterNotNull(): Sequence<E> = mapNotNull { it }
+
+
+
+
+fun <T> Iterable<T>.applyEach(op: T.()->Unit) = forEach { it.apply(op) }
+
+fun <T> Sequence<T>.onEachApply(op: T.()->Unit) = onEach { it.apply(op) }
+
+
+@ExperimentalContracts
+fun <T: Any, R> T.search(
+  getTarget: T.()->R?,
+  getNext: T.()->T?
+): R? {
+  contract {
+	callsInPlace(getTarget, AT_LEAST_ONCE)
+	callsInPlace(getNext, UNKNOWN)
+  }
+  var next: T? = this
+  do {
+	next!!.getTarget()?.let {
+	  return it
+	}
+	next = next.getNext()
+  } while (next != null)
+  return null
+}
+
+
+@ExperimentalContracts
+fun <T: Any> T.searchDepth(
+  getNext: T.()->T?
+): Int {
+  contract {
+	callsInPlace(getNext, InvocationKind.AT_LEAST_ONCE)
+  }
+  var i = -1
+  var next: T? = this
+  do {
+	next = next!!.getNext()
+	i++
+  } while (next != null)
+  return i
+}
+
+
+fun <E> Collection<E>.allUnique(): Boolean {
+  when (this) {
+	is List<E> -> {
+	  forEachIndexed { index1, t1 ->
+		for (t2 in subList(index1 + 1, size)) {
+		  if (t1 == t2) {
+			println("t1 is t2")
+			println("t1:$t1")
+			println("t2:$t2")
+			println("index1:$index1")
+			println("indexOf(t1)=${this.indexOf(t1)}")
+			println("indexOf(t2)=${this.indexOf(t2)}")
+			return false
+		  }
+		}
+	  }
+	  return true
+	}
+
+	is Set<E>  -> {
+	  return true
+	}
+
+	else       -> return toList().allUnique()
+  }
+}
+
+fun <E> Collection<E>.allSame(): Boolean {
+  if (this.size <= 1) {
+	return true
+  } else {
+	val example = this.first()
+	return this.all { it == example }
+  }
+}
+
+fun <T> list(op: ListBuilder<T>.()->Unit) = ListBuilder<T>().apply(op)
+
+class ListBuilder<T>(private val list: MutableList<T> = mutableListOf()): MutableList<T> by list {
+  operator fun T.unaryPlus() {
+	list += this
+  }
+}
+
+inline fun <E, reified R> Iterable<E>.mapToArray(op: (E)->R) = map { op(it) }.toTypedArray()
+inline fun <E, reified R> Array<E>.mapToArray(op: (E)->R) = map { op(it) }.toTypedArray()
+
+
+fun <E> Collection<E>.duplicates(): List<Pair<IndexedValue<E>, IndexedValue<E>>> = when (this) {
+  is Set  -> listOf()
+  is List -> {
+	val r = mutableListOf<Pair<IndexedValue<E>, IndexedValue<E>>>()
+	val itr = listIterator()
+	while (itr.hasNext()) {
+	  val n = itr.next()
+	  val i = itr.previousIndex()
+	  forEachIndexed { index, e ->
+		if (index != i && e == n) {
+		  r += IndexedValue(i, n) to IndexedValue<E>(index, e)
+		}
+	  }
+	}
+	r
+  }
+
+  else    -> err("how to get duplicates of ${this}?")
+}
+
+inline fun <reified T> arrayOfNotNull(vararg elements: T?) = listOfNotNull(elements).toTypedArray()
+
+
+fun <T> Iterator<T>.first(op: (T)->Boolean): T {
+  while (hasNext()) {
+	val n = next()
+	if (op(n)) return n
+  }
+  throw NoSuchElementException("couldn't find one")
+}
+
+
+
+
+fun <T> ListIterator<T>.firstBackwards(op: (T)->Boolean): T {
+  while (hasPrevious()) {
+	val n = previous()
+	if (op(n)) return n
+  }
+  throw NoSuchElementException("couldn't find one")
+}
+
+
+
+fun <T> Iterator<T>.nextOrNull() = takeIf { hasNext() }?.next()
