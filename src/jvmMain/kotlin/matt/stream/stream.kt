@@ -1,4 +1,5 @@
 @file:JvmName("StreamJvmKt")
+
 package matt.stream
 
 import matt.stream.ReaderEndReason.TYPE.END_OF_STREAM
@@ -41,8 +42,13 @@ fun Process.forEachErrChar(op: (String)->Unit) = errorStream.bufferedReader().fo
 }
 
 
-
-
 fun <T: Any> KClass<out T>.recurseSealedSubclasses() = recurse(includeSelf = false) {
   it.sealedSubclasses
+}
+
+fun <E> MutableList<E>.replaceEvery(a: E, b: E) = replaceAll {
+  when (it) {
+	a    -> b
+	else -> it
+  }
 }
