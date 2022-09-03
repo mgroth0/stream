@@ -1,6 +1,6 @@
 package matt.stream.itr
 
-import matt.klib.lang.err
+import matt.lang.err
 
 fun <E> List<E>.loopIterator() = LoopIterator(this)
 fun <E> MutableList<E>.loopIterator() = MutableLoopIterator(this)

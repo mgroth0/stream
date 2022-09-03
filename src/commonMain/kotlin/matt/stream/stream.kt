@@ -1,7 +1,7 @@
 package matt.stream
 
 
-import matt.klib.lang.err
+import matt.lang.err
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind.UNKNOWN
 import kotlin.contracts.contract

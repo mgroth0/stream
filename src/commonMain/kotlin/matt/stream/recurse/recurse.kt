@@ -1,6 +1,6 @@
 package matt.stream.recurse
 
-import matt.klib.lang.err
+import matt.lang.err
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind

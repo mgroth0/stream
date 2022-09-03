@@ -2,8 +2,8 @@
 
 package matt.stream.encoding.reader
 
-import matt.klib.lang.err
-import matt.klib.lang.untilIs
+import matt.lang.err
+import matt.lang.untilIs
 import matt.klib.log.HasLogger
 import matt.klib.log.Logger
 import matt.stream.encoding.Encoding

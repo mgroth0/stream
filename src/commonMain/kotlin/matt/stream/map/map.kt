@@ -4,7 +4,7 @@ import matt.klib.dmap.CanBeNotNullMap
 import matt.klib.dmap.CanBeNotNullMutableMap
 import matt.klib.str.lower
 import matt.klib.dmap.withStoringDefault
-import matt.klib.lang.err
+import matt.lang.err
 import matt.stream.itr.FakeMutableIterator
 import kotlin.collections.MutableMap.MutableEntry
 
