@@ -1,7 +1,6 @@
 package matt.stream.message
 
 import kotlinx.serialization.Serializable
-import matt.klib.depinfo.DepInfo
 
 
 class ActionResult(
@@ -110,7 +109,7 @@ data class PDFFileMessage(val file: String): InterAppMessage
 data class PDFPageMessage(val pageNum: Int): InterAppMessage
 
 @Serializable
-class DepInfoMessage(val depInfo: DepInfo): InterAppMessage
+class ObjMessage<T>(val obj: T): InterAppMessage
 
 @Serializable
 class Freecomp(val path: String): InterAppMessage
