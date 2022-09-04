@@ -5,7 +5,7 @@ import matt.collect.dmap.CanBeNotNullMutableMap
 import matt.prim.str.lower
 import matt.collect.dmap.withStoringDefault
 import matt.lang.err
-import matt.stream.itr.FakeMutableIterator
+import matt.collect.itr.FakeMutableIterator
 import kotlin.collections.MutableMap.MutableEntry
 
 fun <K, V> lazyMap(getter: (K)->V): CanBeNotNullMap<K, V> {
