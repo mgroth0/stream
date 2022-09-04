@@ -46,7 +46,7 @@ fun <T: Any> KClass<out T>.recurseSealedClasses() = recurse {
   it.sealedSubclasses
 }
 
-fun <T: Any> Sequence<KClass<out T>>.objectInstances() = mapNotNull { it.objectInstance }
+fun <T: Any> Sequence<KClass<out T>>.objectInstances() = mapNotNull { it.objectInstance }.toList()
 
 fun <E> MutableList<E>.replaceEvery(a: E, b: E) = replaceAll {
   when (it) {
