@@ -45,6 +45,9 @@ fun Process.forEachErrChar(op: (String)->Unit) = errorStream.bufferedReader().fo
 fun <T: Any> KClass<out T>.recurseSealedSubclasses() = recurse(includeSelf = false) {
   it.sealedSubclasses
 }
+fun <T: Any> KClass<out T>.recurseSealedSubObjects() = recurse(includeSelf = false) {
+  it.sealedSubclasses
+}.mapNotNull { it.objectInstance }
 
 fun <E> MutableList<E>.replaceEvery(a: E, b: E) = replaceAll {
   when (it) {
