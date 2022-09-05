@@ -165,8 +165,6 @@ fun <E> List<E?>.filterNotNull(): List<E> = mapNotNull { it }
 fun <E> Sequence<E?>.filterNotNull(): Sequence<E> = mapNotNull { it }
 
 
-
-
 fun <T> Iterable<T>.applyEach(op: T.()->Unit) = forEach { it.apply(op) }
 
 fun <T> Sequence<T>.onEachApply(op: T.()->Unit) = onEach { it.apply(op) }
@@ -208,6 +206,8 @@ fun <T: Any> T.searchDepth(
   return i
 }
 
+
+fun <E, T> Collection<E>.allUnique(op: (E)->T) = map(op).allUnique()
 
 fun <E> Collection<E>.allUnique(): Boolean {
   when (this) {
@@ -289,8 +289,6 @@ fun <T> Iterator<T>.first(op: (T)->Boolean): T {
 }
 
 
-
-
 fun <T> ListIterator<T>.firstBackwards(op: (T)->Boolean): T {
   while (hasPrevious()) {
 	val n = previous()
@@ -298,7 +296,6 @@ fun <T> ListIterator<T>.firstBackwards(op: (T)->Boolean): T {
   }
   throw NoSuchElementException("couldn't find one")
 }
-
 
 
 fun <T> Iterator<T>.nextOrNull() = takeIf { hasNext() }?.next()
