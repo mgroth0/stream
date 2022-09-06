@@ -12,3 +12,11 @@ fun <E> Queue<E>.pollUntilEnd(): List<E> {
   } while (e != null)
   return list
 }
+
+
+fun <E> Queue<E>.pollSequence() = sequence<E> {
+  do {
+	val e = poll()
+	if (e != null) yield(e)
+  } while (e != null)
+}
