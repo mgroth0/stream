@@ -7,11 +7,6 @@
 	  "key" :  "kotlinx-coroutines"
 	},
 	{
-	  "type" : "matt.mstruct.bj.BuildJsonProjectDependency",
-	  "cfg" :  "commonMainApi",
-	  "path" : ":k:klib"
-	},
-	{
 	  "type" : "matt.mstruct.bj.BuildJsonLibDependency",
 	  "cfg" :  "commonMainImplementation",
 	  "key" :  "kotlinx-serialization-json"
