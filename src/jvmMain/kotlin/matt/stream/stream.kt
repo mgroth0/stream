@@ -33,24 +33,9 @@ fun Reader.forEachChar(op: (String)->Unit): ReaderEndReason {
   }
 }
 
-fun Process.forEachOutChar(op: (String)->Unit) = inputStream.bufferedReader().forEachChar {
-  op(it)
-}
-
-fun Process.forEachErrChar(op: (String)->Unit) = errorStream.bufferedReader().forEachChar {
-  op(it)
-}
-
-
 fun <T: Any> KClass<out T>.recurseSealedClasses() = recurse {
   it.sealedSubclasses
 }
 
 fun <T: Any> Sequence<KClass<out T>>.objectInstances() = mapNotNull { it.objectInstance }.toList()
 
-fun <E> MutableList<E>.replaceEvery(a: E, b: E) = replaceAll {
-  when (it) {
-	a    -> b
-	else -> it
-  }
-}
