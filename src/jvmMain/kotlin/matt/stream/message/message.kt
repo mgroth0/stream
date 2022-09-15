@@ -11,6 +11,10 @@ val NOTHING_TO_SEND = ActionResult(message = null)
 
 val YES_ACTION = ActionResult(message = YES)
 
+val ACTION_SUCCESS = ActionResult(message = SUCCESS)
+val ACTION_FAIL = ActionResult(message = FAIL)
+
+
 @Serializable
 class IntMessage(val i: Int): InterAppMessage
 
@@ -26,9 +30,13 @@ sealed interface InterAppMessage
 
 sealed class InterAppResult: InterAppMessage
 
+@Serializable sealed interface Result: InterAppMessage
 
 @Serializable
-object FAIL: InterAppMessage
+object SUCCESS: Result
+
+@Serializable
+object FAIL: Result
 
 @Serializable
 class Text(val text: String): InterAppMessage
