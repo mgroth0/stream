@@ -1,6 +1,7 @@
 package matt.stream.encoding.result
 
-import matt.lang.toStringBuilder
+import matt.model.tostringbuilder.toStringBuilder
+
 
 sealed interface ReadSectionResult
 sealed interface ReadSectionRawResult: ReadSectionResult
