@@ -7,6 +7,7 @@ import matt.log.SystemOutLogger
 import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
 import matt.stream.message.InterAppMessage
+import java.io.IOException
 import java.io.OutputStream
 
 fun OutputStream.withEncoding(encoding: Encoding) = EncodingOutputStream(encoding, this)
@@ -22,14 +23,17 @@ class EncodingOutputStream(private val encoding: Encoding, private val out: Outp
 
 
   /*tried to do this as a reified inline so anything could be used instead of InterAppMessage... but it doesn't work. The class discriminator wasn't included in the resulting json...*/
-  @Suppress("OPT_IN_USAGE") fun sendJson(o: InterAppMessage) = decorateGlobal(SystemOutLogger) {
+  @Suppress("OPT_IN_USAGE")
+  @Throws(IOException::class)
+  fun sendJson(o: InterAppMessage) = decorateGlobal(SystemOutLogger) {
 	isBeingUsedCorrectly = true
 	println("stringJson = ${Json.encodeToString(o)}")
-	Json.encodeToStream<InterAppMessage>(o, this)
+	Json.encodeToStream(o, this)
 	delimit()
 	isBeingUsedCorrectly = false
   }
 
+  @Throws(IOException::class)
   fun sendString(string: String) {
 	isBeingUsedCorrectly = true
 	write(string.toByteArray())
@@ -38,15 +42,17 @@ class EncodingOutputStream(private val encoding: Encoding, private val out: Outp
   }
 
   @PublishedApi
+  @Throws(IOException::class)
   internal fun delimit() {
 	require(isBeingUsedCorrectly)
 	out.write(encoding.delimiter.code)
 	flush()
   }
 
+  @Throws(IOException::class)
   override fun write(b: Int) {
 	require(isBeingUsedCorrectly)
-	return out.write(encoding.encode(b.toChar()).toByteArray())
+	out.write(encoding.encode(b.toChar()).toByteArray())
   }
 
   override fun close() = out.close()
