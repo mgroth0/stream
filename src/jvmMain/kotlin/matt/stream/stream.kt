@@ -4,7 +4,6 @@ package matt.stream
 
 import matt.stream.ReaderEndReason.TYPE.END_OF_STREAM
 import matt.stream.ReaderEndReason.TYPE.IO_EXCEPTION
-import matt.stream.recurse.recurse
 import java.io.IOException
 import java.io.InputStream
 import java.io.Reader
@@ -34,11 +33,6 @@ fun Reader.forEachChar(op: (String)->Unit): ReaderEndReason {
   }
 }
 
-fun <T: Any> KClass<out T>.recurseSealedClasses() = recurse {
-  it.sealedSubclasses
-}
-
-fun <T: Any> Sequence<KClass<out T>>.objectInstances() = mapNotNull { it.objectInstance }.toList()
 
 fun InputStream.readOrNullIfEOF() = read().takeIf { it != -1 }
 
