@@ -4,7 +4,7 @@ import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import matt.log.HasLogger
-import matt.log.Logger
+import matt.log.logger.Logger
 import matt.stream.encoding.Encoding
 import matt.stream.encoding.reader.EncodingReader
 import matt.stream.encoding.result.EOF

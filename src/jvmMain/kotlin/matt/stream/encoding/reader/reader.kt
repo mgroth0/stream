@@ -5,7 +5,7 @@ package matt.stream.encoding.reader
 import matt.lang.err
 import matt.lang.untilIs
 import matt.log.HasLogger
-import matt.log.Logger
+import matt.log.logger.Logger
 import matt.stream.encoding.Encoding
 import matt.stream.encoding.result.DELIM
 import matt.stream.encoding.result.EOF
