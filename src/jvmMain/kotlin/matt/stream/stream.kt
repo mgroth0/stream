@@ -7,13 +7,21 @@ import matt.stream.ReaderEndReason.TYPE.IO_EXCEPTION
 import java.io.IOException
 import java.io.InputStream
 import java.io.Reader
-import kotlin.reflect.KClass
 
 class ReaderEndReason(val type: TYPE, val exception: Exception? = null) {
   enum class TYPE {
 	END_OF_STREAM,
 	IO_EXCEPTION
   }
+}
+
+fun Reader.onEachChar(op: (String)->Unit): String {
+  var r = ""
+  forEachChar {
+	op(it)
+	r += it
+  }
+  return r
 }
 
 fun Reader.forEachChar(op: (String)->Unit): ReaderEndReason {
