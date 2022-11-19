@@ -22,3 +22,4 @@ sealed interface ReadCharResult
 object DELIM: ReadCharResult
 object EOF: ReadCharResult, ReadSectionBothResult
 object TIMEOUT: ReadCharResult, ReadSectionBothResult
+object UNREADABLE: ReadSectionParsedResult
