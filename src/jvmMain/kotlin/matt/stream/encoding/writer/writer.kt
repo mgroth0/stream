@@ -6,7 +6,7 @@ import kotlinx.serialization.json.encodeToStream
 import matt.log.SystemOutLogger
 import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
-import matt.model.message.InterAppMessage
+import matt.model.data.message.InterAppMessage
 import java.io.IOException
 import java.io.OutputStream
 

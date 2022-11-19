@@ -1,6 +1,6 @@
 package matt.stream.encoding.result
 
-import matt.model.tostringbuilder.toStringBuilder
+import matt.model.obj.tostringbuilder.toStringBuilder
 
 
 sealed interface ReadSectionResult
