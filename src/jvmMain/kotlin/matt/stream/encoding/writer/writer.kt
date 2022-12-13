@@ -3,6 +3,7 @@ package matt.stream.encoding.writer
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
+import matt.log.NOPLogger
 import matt.log.SystemOutLogger
 import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
@@ -25,9 +26,9 @@ class EncodingOutputStream(private val encoding: Encoding, private val out: Outp
   /*tried to do this as a reified inline so anything could be used instead of InterAppMessage... but it doesn't work. The class discriminator wasn't included in the resulting json...*/
   @Suppress("OPT_IN_USAGE")
   @Throws(IOException::class)
-  fun sendJson(o: InterAppMessage) = decorateGlobal(SystemOutLogger) {
+  fun sendJson(o: InterAppMessage) = decorateGlobal(NOPLogger) {
 	isBeingUsedCorrectly = true
-	println("stringJson = ${Json.encodeToString(o)}")
+//	println("stringJson = ${Json.encodeToString(o)}")
 	Json.encodeToStream(o, this)
 	delimit()
 	isBeingUsedCorrectly = false
