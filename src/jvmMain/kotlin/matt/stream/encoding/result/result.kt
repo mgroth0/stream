@@ -1,6 +1,5 @@
 package matt.stream.encoding.result
 
-import matt.model.obj.tostringbuilder.toStringBuilder
 
 
 sealed interface ReadSectionResult
@@ -9,11 +8,11 @@ sealed interface ReadSectionParsedResult: ReadSectionResult
 sealed interface ReadSectionBothResult: ReadSectionRawResult, ReadSectionParsedResult
 
 class ReadSectionRaw(val sect: String): ReadSectionRawResult {
-  override fun toString() = toStringBuilder(::sect)
+  override fun toString() = "ReadSectionRaw[sect=$sect]"
 }
 
 class ReadSectionParsed<T: Any>(val sect: T): ReadSectionParsedResult {
-  override fun toString() = toStringBuilder(::sect)
+  override fun toString() = "ReadSectionParsed[sect=$sect]"
 }
 
 sealed interface ReadCharResult
