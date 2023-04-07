@@ -9,36 +9,34 @@ import java.io.InputStream
 import java.io.Reader
 
 class ReaderEndReason(val type: TYPE, val exception: Exception? = null) {
-  enum class TYPE {
-	END_OF_STREAM,
-	IO_EXCEPTION
-  }
+    enum class TYPE {
+        END_OF_STREAM,
+        IO_EXCEPTION
+    }
 }
 
-fun Reader.onEachChar(op: (String)->Unit): String {
-  var r = ""
-  forEachChar {
-	op(it)
-	r += it
-  }
-  return r
+fun Reader.onEachChar(op: (String) -> Unit): String {
+    var r = ""
+    forEachChar {
+        op(it)
+        r += it
+    }
+    return r
 }
 
-fun Reader.forEachChar(op: (String)->Unit): ReaderEndReason {
-  var s: String
-  var c: Int
-  try {
-	while (true) {
-	  c = read()
-	  if (c == -1) {
-		return ReaderEndReason(type = END_OF_STREAM)
-	  }
-	  s = c.toChar().toString()
-	  if (s.isNotEmpty()) op(s)
-	}
-  } catch (e: IOException) {
-	return ReaderEndReason(type = IO_EXCEPTION, exception = e)
-  }
+fun Reader.forEachChar(op: (String) -> Unit): ReaderEndReason {
+    var s: String
+    var c: Int
+    try {
+        while (true) {
+            c = read()
+            if (c == -1) return ReaderEndReason(type = END_OF_STREAM)
+            s = c.toChar().toString()
+            if (s.isNotEmpty()) op(s)
+        }
+    } catch (e: IOException) {
+        return ReaderEndReason(type = IO_EXCEPTION, exception = e)
+    }
 }
 
 
