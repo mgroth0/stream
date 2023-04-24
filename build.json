@@ -1,10 +1,12 @@
 {
-  "type" :         "matt.mstruct.bj.MultiPlatformModule", "jvm": {}, "js": "LIB",
-  "dependencies" : [
-	{
-	  "type" : "Project",
-	  "cfg" :  "commonMainApi",
-	  "path" : ":k:log"
-	}
+  "type": "MultiPlatformModule",
+  "jvm": {},
+  "js": "LIB",
+  "dependencies": [
+    {
+      "type": "Project",
+      "cfg": "commonMainApi",
+      "path": ":k:log"
+    }
   ]
 }
