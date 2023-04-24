@@ -1,10 +1,8 @@
 package matt.stream.encoding.writer
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
 import matt.log.NOPLogger
-import matt.log.SystemOutLogger
 import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
 import matt.model.data.message.InterAppMessage
