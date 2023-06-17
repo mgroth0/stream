@@ -20,38 +20,38 @@ import java.io.Closeable
 import java.io.InputStream
 import kotlin.reflect.KClass
 
-inline fun <reified T: Any> InputStream.messageReader(encoding: Encoding, log: Logger) =
-  MessageReader<T>(encoding, this, T::class, log)
+inline fun <reified T : Any> InputStream.messageReader(encoding: Encoding, log: Logger) =
+    MessageReader<T>(encoding, this, T::class, log)
 
 @OptIn(InternalSerializationApi::class)
-open class MessageReader<T: Any>(
-  encoding: Encoding,
-  input: InputStream,
-  val cls: KClass<T>,
-  log: Logger,
-): HasLogger(log), Closeable {
+open class MessageReader<T : Any>(
+    encoding: Encoding,
+    input: InputStream,
+    val cls: KClass<T>,
+    log: Logger,
+) : HasLogger(log), Closeable {
 
-  private val encodingReader by lazy {
-	EncodingReader(encoding = encoding, input = input, log = log)
-  }
+    private val encodingReader by lazy {
+        EncodingReader(encoding = encoding, input = input, log = log)
+    }
 
-  fun message(): ReadSectionParsedResult = when (val sect = encodingReader.section()) {
-	EOF               -> EOF
-	TIMEOUT           -> TIMEOUT
-	is ReadSectionRaw -> {
-	  try {
-		ReadSectionParsed(Json.decodeFromString(cls.serializer(), sect.sect.apply {
-		  println("json:${this}")
-		}))
-	  } catch (e: SerializationException) {
-		warn("could not read json message")
-		ThrowReport(Thread.currentThread(), e).print()
-		UNREADABLE
-	  }
-	}
-  }
+    fun message(): ReadSectionParsedResult = when (val sect = encodingReader.section()) {
+        EOF               -> EOF
+        TIMEOUT           -> TIMEOUT
+        is ReadSectionRaw -> {
+            try {
+                ReadSectionParsed(Json.decodeFromString(cls.serializer(), sect.sect.apply {
+                    println("json:${this}")
+                }))
+            } catch (e: SerializationException) {
+                warn("could not read json message")
+                ThrowReport(Thread.currentThread(), e).print()
+                UNREADABLE
+            }
+        }
+    }
 
-  override fun close() = encodingReader.close()
+    override fun close() = encodingReader.close()
 }
 
 
