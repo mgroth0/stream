@@ -2,6 +2,7 @@ package matt.stream.encoding.writer
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
+import matt.lang.require.requireNotIs
 import matt.log.NOPLogger
 import matt.log.decorateGlobal
 import matt.stream.encoding.Encoding
@@ -14,7 +15,7 @@ fun OutputStream.withEncoding(encoding: Encoding) = EncodingOutputStream(encodin
 class EncodingOutputStream(private val encoding: Encoding, private val out: OutputStream): OutputStream() {
 
   init {
-	require(out !is EncodingOutputStream)
+	requireNotIs<EncodingOutputStream>(out)
   }
 
   @PublishedApi
