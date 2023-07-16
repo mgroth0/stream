@@ -6,6 +6,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import matt.log.HasLogger
 import matt.log.logger.Logger
+import matt.log.mem.LogMemory
 import matt.log.warn.warn
 import matt.model.code.errreport.ThrowReport
 import matt.stream.encoding.Encoding
