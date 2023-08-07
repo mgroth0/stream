@@ -8,7 +8,10 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.Reader
 
-class ReaderEndReason(val type: TYPE, val exception: Exception? = null) {
+class ReaderEndReason(
+    val type: TYPE,
+    val exception: Exception? = null
+) {
     enum class TYPE {
         END_OF_STREAM,
         IO_EXCEPTION
