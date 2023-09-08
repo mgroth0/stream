@@ -1,6 +1,6 @@
 package matt.stream.encoding.reader.message
 
-import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
@@ -18,16 +18,17 @@ import matt.stream.encoding.result.TIMEOUT
 import matt.stream.encoding.result.UNREADABLE
 import java.io.Closeable
 import java.io.InputStream
-import kotlin.reflect.KClass
 
-inline fun <reified T : Any> InputStream.messageReader(encoding: Encoding, log: Logger) =
-    MessageReader<T>(encoding, this, T::class, log)
+inline fun <reified T : Any> InputStream.messageReader(
+    encoding: Encoding,
+    log: Logger
+) =
+    MessageReader<T>(encoding, this, serializer<T>(), log)
 
-@OptIn(InternalSerializationApi::class)
 open class MessageReader<T : Any>(
     encoding: Encoding,
     input: InputStream,
-    val cls: KClass<T>,
+    val ser: KSerializer<T>,
     log: Logger,
 ) : HasLogger(log), Closeable {
 
@@ -40,7 +41,7 @@ open class MessageReader<T : Any>(
         TIMEOUT           -> TIMEOUT
         is ReadSectionRaw -> {
             try {
-                ReadSectionParsed(Json.decodeFromString(cls.serializer(), sect.sect.apply {
+                ReadSectionParsed(Json.decodeFromString(ser, sect.sect.apply {
                     println("json:${this}")
                 }))
             } catch (e: SerializationException) {
