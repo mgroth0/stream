@@ -17,6 +17,7 @@
       "path": ":k:test"
     }
   ],
+  "native": "LIB",
   "jvm": {
   },
   "js": {

@@ -1,7 +1,7 @@
 package matt.stream.encoding.reader
 
 import matt.lang.err
-import matt.lang.require.requireEmpty
+import matt.lang.assertions.require.requireEmpty
 import matt.lang.untilIs
 import matt.log.HasLogger
 import matt.log.logger.Logger
