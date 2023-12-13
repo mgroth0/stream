@@ -41,9 +41,7 @@ open class MessageReader<T : Any>(
         TIMEOUT           -> TIMEOUT
         is ReadSectionRaw -> {
             try {
-                ReadSectionParsed(Json.decodeFromString(ser, sect.sect.apply {
-                    println("json:${this}")
-                }))
+                ReadSectionParsed(Json.decodeFromString(ser, sect.sect))
             } catch (e: SerializationException) {
                 warn("could not read json message")
                 ThrowReport(Thread.currentThread(), e).print()
