@@ -20,7 +20,7 @@ class InputStreamReplayer(
     private inner class IStream : InputStream() {
 
         override fun read(): Int {
-            TODO("Not yet implemented")
+            TODO()
         }
 
         override fun available(): Int {
