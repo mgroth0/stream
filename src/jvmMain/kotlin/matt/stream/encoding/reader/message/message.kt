@@ -50,7 +50,7 @@ open class MessageReader<T : Any>(
         }
     }
 
-    override fun close() = encodingReader.close()
+    final override fun close() = encodingReader.close()
 }
 
 

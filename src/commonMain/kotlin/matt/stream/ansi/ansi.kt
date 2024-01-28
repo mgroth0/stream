@@ -1,6 +1,7 @@
 package matt.stream.ansi
 
 
+import matt.lang.anno.Open
 import matt.lang.anno.SeeURL
 
 import matt.stream.ansi.ASCII.ESC
@@ -33,6 +34,8 @@ enum class ASCII(val char: Char) {
 
 interface AnsiGraphicsMode {
     val code: String
+
+    @Open
     fun wrap(
         s: CharSequence,
         vararg extras: AnsiGraphicsMode
@@ -40,6 +43,7 @@ interface AnsiGraphicsMode {
         arrayOf(code, *extras.map { it.code }.toTypedArray()).joinToString(separator = "") + s + ANSI_RESET
     }
 
+    @Open
     fun wrap(
         c: Char,
         vararg extras: AnsiGraphicsMode
@@ -49,6 +53,7 @@ interface AnsiGraphicsMode {
 
     private val identifyingPart get() = code.substringAfter("[").substringBefore("m")
 
+    @Open
     val id
         get(): Int {
             return when (identifyingPart.length) {

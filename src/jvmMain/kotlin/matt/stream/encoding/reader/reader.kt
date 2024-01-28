@@ -1,7 +1,7 @@
 package matt.stream.encoding.reader
 
-import matt.lang.err
 import matt.lang.assertions.require.requireEmpty
+import matt.lang.err
 import matt.lang.untilIs
 import matt.log.HasLogger
 import matt.log.logger.Logger
@@ -66,5 +66,5 @@ open class EncodingReader(
         TIMEOUT
     } /*add any other timeout exceptions here as well and return matt.stream.encoding.result.TIMEOUT*/
 
-    override fun close() = br.close()
+    final override fun close() = br.close()
 }
