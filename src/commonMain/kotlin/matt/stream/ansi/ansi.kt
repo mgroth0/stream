@@ -3,7 +3,6 @@ package matt.stream.ansi
 
 import matt.lang.anno.Open
 import matt.lang.anno.SeeURL
-
 import matt.stream.ansi.ASCII.ESC
 import matt.stream.ansi.AnsiColor.BLACK
 import matt.stream.ansi.AnsiColor.BLACK_BACKGROUND
@@ -27,9 +26,7 @@ import kotlin.jvm.JvmInline
 enum class ASCII(val char: Char) {
     ESC('\u001B');
 
-    override fun toString(): String {
-        return char.toString()
-    }
+    override fun toString(): String = char.toString()
 }
 
 interface AnsiGraphicsMode {
@@ -129,7 +126,7 @@ fun CharSequence.ansiWhiteBackground() = WHITE_BACKGROUND.wrap(this)
 fun Char.ansiWhiteBackground() = WHITE_BACKGROUND.wrap(this)
 
 @SeeURL("https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797")
-        /*Note: the Reset color is the reset code that resets all colors and text effects, Use Default color to reset colors only.*/
+/*Note: the Reset color is the reset code that resets all colors and text effects, Use Default color to reset colors only.*/
 val ANSI_RESET = "$ESC[0m"
 val ANSI_RESET_OBJ = GenericAnsiCode(ANSI_RESET)
 

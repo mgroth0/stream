@@ -5,8 +5,8 @@ import kotlinx.serialization.json.encodeToStream
 import matt.lang.assertions.require.requireNotIs
 import matt.log.NOPLogger
 import matt.log.decorateGlobal
-import matt.stream.encoding.Encoding
 import matt.model.data.message.InterAppMessage
+import matt.stream.encoding.Encoding
 import java.io.IOException
 import java.io.OutputStream
 
@@ -14,49 +14,49 @@ fun OutputStream.withEncoding(encoding: Encoding) = EncodingOutputStream(encodin
 
 class EncodingOutputStream(private val encoding: Encoding, private val out: OutputStream): OutputStream() {
 
-  init {
-	requireNotIs<EncodingOutputStream>(out)
-  }
+    init {
+        requireNotIs<EncodingOutputStream>(out)
+    }
 
-  @PublishedApi
-  internal var isBeingUsedCorrectly = false
+    @PublishedApi
+    internal var isBeingUsedCorrectly = false
 
 
-  /*tried to do this as a reified inline so anything could be used instead of InterAppMessage... but it doesn't work. The class discriminator wasn't included in the resulting json...*/
-  @Suppress("OPT_IN_USAGE")
-  @Throws(IOException::class)
-  fun sendJson(o: InterAppMessage) = decorateGlobal(NOPLogger) {
-	isBeingUsedCorrectly = true
+    /*tried to do this as a reified inline so anything could be used instead of InterAppMessage... but it doesn't work. The class discriminator wasn't included in the resulting json...*/
+    @Suppress("OPT_IN_USAGE")
+    @Throws(IOException::class)
+    fun sendJson(o: InterAppMessage) = decorateGlobal(NOPLogger) {
+        isBeingUsedCorrectly = true
 //	println("stringJson = ${Json.encodeToString(o)}")
-	Json.encodeToStream(o, this)
-	delimit()
-	isBeingUsedCorrectly = false
-  }
+        Json.encodeToStream(o, this)
+        delimit()
+        isBeingUsedCorrectly = false
+    }
 
-  @Throws(IOException::class)
-  fun sendString(string: String) {
-	isBeingUsedCorrectly = true
-	write(string.toByteArray())
-	delimit()
-	isBeingUsedCorrectly = false
-  }
+    @Throws(IOException::class)
+    fun sendString(string: String) {
+        isBeingUsedCorrectly = true
+        write(string.toByteArray())
+        delimit()
+        isBeingUsedCorrectly = false
+    }
 
-  @PublishedApi
-  @Throws(IOException::class)
-  internal fun delimit() {
-	require(isBeingUsedCorrectly)
-	out.write(encoding.delimiter.code)
-	flush()
-  }
+    @PublishedApi
+    @Throws(IOException::class)
+    internal fun delimit() {
+        require(isBeingUsedCorrectly)
+        out.write(encoding.delimiter.code)
+        flush()
+    }
 
-  @Throws(IOException::class)
-  override fun write(b: Int) {
-	require(isBeingUsedCorrectly)
-	out.write(encoding.encode(b.toChar()).toByteArray())
-  }
+    @Throws(IOException::class)
+    override fun write(b: Int) {
+        require(isBeingUsedCorrectly)
+        out.write(encoding.encode(b.toChar()).toByteArray())
+    }
 
-  override fun close() = out.close()
+    override fun close() = out.close()
 
-  override fun flush() = out.flush()
+    override fun flush() = out.flush()
 
 }

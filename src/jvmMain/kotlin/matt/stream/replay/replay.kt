@@ -23,37 +23,25 @@ class InputStreamReplayer(
             TODO()
         }
 
-        override fun available(): Int {
-            return super.available()
-        }
+        override fun available(): Int = super.available()
 
         override fun close() {
             super.close()
         }
 
-        override fun markSupported(): Boolean {
-            return super.markSupported()
-        }
+        override fun markSupported(): Boolean = super.markSupported()
 
-        override fun readAllBytes(): ByteArray {
-            return super.readAllBytes()
-        }
+        override fun readAllBytes(): ByteArray = super.readAllBytes()
 
-        override fun read(b: ByteArray): Int {
-            return super.read(b)
-        }
+        override fun read(b: ByteArray): Int = super.read(b)
 
-        override fun readNBytes(len: Int): ByteArray {
-            return super.readNBytes(len)
-        }
+        override fun readNBytes(len: Int): ByteArray = super.readNBytes(len)
 
         override fun read(
             b: ByteArray,
             off: Int,
             len: Int
-        ): Int {
-            return super.read(b, off, len)
-        }
+        ): Int = super.read(b, off, len)
 
         override fun mark(readlimit: Int) {
             super.mark(readlimit)
@@ -63,21 +51,15 @@ class InputStreamReplayer(
             b: ByteArray?,
             off: Int,
             len: Int
-        ): Int {
-            return super.readNBytes(b, off, len)
-        }
+        ): Int = super.readNBytes(b, off, len)
 
-        override fun skip(n: Long): Long {
-            return super.skip(n)
-        }
+        override fun skip(n: Long): Long = super.skip(n)
 
         override fun skipNBytes(n: Long) {
             super.skipNBytes(n)
         }
 
-        override fun transferTo(out: OutputStream?): Long {
-            return super.transferTo(out)
-        }
+        override fun transferTo(out: OutputStream?): Long = super.transferTo(out)
 
         override fun reset() {
             super.reset()

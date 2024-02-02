@@ -8,11 +8,11 @@ sealed interface ReadSectionParsedResult: ReadSectionResult
 sealed interface ReadSectionBothResult: ReadSectionRawResult, ReadSectionParsedResult
 
 class ReadSectionRaw(val sect: String): ReadSectionRawResult {
-  override fun toString() = "ReadSectionRaw[sect=$sect]"
+    override fun toString() = "ReadSectionRaw[sect=$sect]"
 }
 
 class ReadSectionParsed<T: Any>(val sect: T): ReadSectionParsedResult {
-  override fun toString() = "ReadSectionParsed[sect=$sect]"
+    override fun toString() = "ReadSectionParsed[sect=$sect]"
 }
 
 sealed interface ReadCharResult
