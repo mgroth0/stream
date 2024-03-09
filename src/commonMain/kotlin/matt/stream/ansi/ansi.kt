@@ -3,6 +3,8 @@ package matt.stream.ansi
 
 import matt.lang.anno.Open
 import matt.lang.anno.SeeURL
+import matt.lang.common.substringAfterSingular
+import matt.lang.common.substringBeforeSingular
 import matt.stream.ansi.ASCII.ESC
 import matt.stream.ansi.AnsiColor.BLACK
 import matt.stream.ansi.AnsiColor.BLACK_BACKGROUND
@@ -44,11 +46,12 @@ interface AnsiGraphicsMode {
     fun wrap(
         c: Char,
         vararg extras: AnsiGraphicsMode
-    ): CharSequence = run {
-        arrayOf(code, *extras.map { it.code }.toTypedArray()).joinToString(separator = "") + c + ANSI_RESET
-    }
+    ): CharSequence =
+        run {
+            arrayOf(code, *extras.map { it.code }.toTypedArray()).joinToString(separator = "") + c + ANSI_RESET
+        }
 
-    private val identifyingPart get() = code.substringAfter("[").substringBefore("m")
+    private val identifyingPart get() = code.substringAfterSingular("[").substringBeforeSingular("m")
 
     @Open
     val id
@@ -88,7 +91,7 @@ enum class AnsiColor(override val code: String) : AnsiGraphicsMode {
     BLUE_BACKGROUND("$ESC[44m"),
     PURPLE_BACKGROUND("$ESC[46m"),
     CYAN_BACKGROUND("$ESC[46m"),
-    WHITE_BACKGROUND("$ESC[47m");
+    WHITE_BACKGROUND("$ESC[47m")
 }
 
 fun CharSequence.ansiBlack() = BLACK.wrap(this)
@@ -125,8 +128,8 @@ fun Char.ansiCyanBackground() = CYAN_BACKGROUND.wrap(this)
 fun CharSequence.ansiWhiteBackground() = WHITE_BACKGROUND.wrap(this)
 fun Char.ansiWhiteBackground() = WHITE_BACKGROUND.wrap(this)
 
-@SeeURL("https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797")
 /*Note: the Reset color is the reset code that resets all colors and text effects, Use Default color to reset colors only.*/
+@SeeURL("https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797")
 val ANSI_RESET = "$ESC[0m"
 val ANSI_RESET_OBJ = GenericAnsiCode(ANSI_RESET)
 

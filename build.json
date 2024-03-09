@@ -1,26 +1,38 @@
 {
-  "type": "MultiPlatformModule",
-  "dependencies": [
-    {
-      "type": "Project",
-      "cfg": "commonMainApi",
-      "path": ":k:prim"
+    "type": "MultiPlatformModule",
+    "dependencies": [
+        {
+            "type": "Project",
+            "cfg": "commonMainApi",
+            "path": ":k:prim"
+        },
+        {
+            "type": "Project",
+            "cfg": "commonJvmAndroidMainApi",
+            "path": ":k:log"
+        },
+        {
+            "type": "Lib",
+            "cfg": "commonJvmAndroidMainApi",
+            "key": "kotlinx-coroutines"
+        },
+        {
+            "type": "Project",
+            "cfg": "commonJvmAndroidTestImplementation",
+            "path": ":k:test"
+        },
+        {
+            "type": "Project",
+            "cfg": "androidInstrumentedTestImplementation",
+            "path": ":k:test:ainstrument"
+        }
+    ],
+    "native": {"type":"Lib"},
+    "jvm": {},
+    "js": {
+        "type": "lib"
     },
-    {
-      "type": "Project",
-      "cfg": "commonJvmAndroidMainApi",
-      "path": ":k:log"
-    },
-    {
-      "type": "Project",
-      "cfg": "jvmTestImplementation",
-      "path": ":k:test"
+    "android": {
+        "type": "Lib"
     }
-  ],
-  "native": "LIB",
-  "jvm": {
-  },
-  "js": {
-    "type": "lib"
-  }
 }
