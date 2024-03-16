@@ -1,7 +1,10 @@
 package matt.stream.redirect.log
 
 import matt.lang.function.Produce
+import matt.lang.shutdown.ShutdownContext
+import matt.lang.shutdown.j.ShutdownExecutorImpl
 import matt.lang.sync.common.SimpleReferenceMonitor
+import matt.stream.redirect.openChannelForLogging
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.FileChannel
@@ -11,11 +14,10 @@ import kotlin.io.path.createParentDirectories
 
 
 class LogFileAndChannel(
-    val autoWritesStandardStreams: Boolean,
     val writingCanBeDisabled: Boolean,
     val path: Path,
-    private val outputStream: Lazy<FileChannel>,
-    @PublishedApi internal val monitor: SimpleReferenceMonitor
+    @PublishedApi internal val monitor: SimpleReferenceMonitor,
+    shutdownContext: ShutdownContext
 ) {
     inline fun <R> synchronizedLogOperation(op: Produce<R>): R =
         synchronized(monitor) {
@@ -26,10 +28,36 @@ class LogFileAndChannel(
         channelClosed = true
     }
 
+    private val mainOutputChannel =
+        lazy {
+            synchronizedLogOperation {
+                check(!channelClosed)
+                path.createParentDirectories()
+                val ch = with(ShutdownExecutorImpl()) { path.openChannelForLogging() }
+                /*this is bootstrap-level context, so yes just use a regular shutdown hook*/
+                shutdownContext.duringShutdown {
+                    synchronizedLogOperation {
+                        ch.close()
+                    }
+                }
+                ch
+            }
+        }
+
+    fun closeMainChannel() {
+        synchronizedLogOperation {
+            if (!channelClosed) {
+                check(mainOutputChannel.isInitialized())
+                mainOutputChannel.value.close()
+            }
+            markChannelDidClose()
+        }
+    }
+
     fun write(source: ByteBuffer) {
         synchronizedLogOperation<Unit> {
             if (!channelClosed) {
-                val channel = outputStream.value
+                val channel = mainOutputChannel.value
                 try {
                     source.mark()
                     channel.write(source)

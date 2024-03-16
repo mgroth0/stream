@@ -2,7 +2,8 @@
 package matt.stream.redirect
 
 import kotlinx.coroutines.runBlocking
-import matt.lang.anno.Duplicated
+import matt.lang.shutdown.ShutdownContext
+import matt.lang.shutdown.j.ShutdownExecutorImpl
 import matt.lang.sync.common.SimpleReferenceMonitor
 import matt.model.code.output.ActualOutputStreams
 import matt.stream.common.decode.decodeAssumingSuccessful
@@ -14,8 +15,6 @@ import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
-import kotlin.concurrent.thread
-import kotlin.io.path.createParentDirectories
 
 /*
 
@@ -59,43 +58,33 @@ fun redirectStandardStreams(
 ): LogFileAndChannel {
     val logMonitor = SimpleReferenceMonitor()
 
-
-
-    val lazyLog =
-        lazy {
-
-            enforcedLogFile.createParentDirectories()
-            @Duplicated(235235235)
-            val ch =
-                FileChannel.open(
-                    enforcedLogFile,
-                    StandardOpenOption.WRITE,
-                    StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING
-                )
-            /*this is bootstrap-level context, so yes just use a regular shutdown hook*/
-            Runtime.getRuntime().addShutdownHook(
-                thread(start = false, name = "close enforced log file") {
-                    synchronized(logMonitor) {
-                        ch.close()
-                    }
-                }
-            )
-            ch
-        }
     val log =
         LogFileAndChannel(
-            autoWritesStandardStreams = true,
             writingCanBeDisabled = false,
             enforcedLogFile,
-            lazyLog,
-            logMonitor
+            logMonitor,
+            shutdownContext = ShutdownExecutorImpl()
         )
+
     System.setOut(PrintStream(RedirectionOutputStream(log, onOut), true))
     System.setErr(PrintStream(RedirectionOutputStream(log, onErr), true))
     return log
 }
 
+context(ShutdownContext)
+fun Path.openChannelForLogging(): FileChannel {
+    val ch =
+        FileChannel.open(
+            this,
+            StandardOpenOption.WRITE,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.TRUNCATE_EXISTING
+        )
+    duringShutdown {
+        ch.close()
+    }
+    return ch
+}
 
 
 
